@@ -1,5 +1,5 @@
 org.springframework.context.ApplicationListener=\
-com.github.berbatov001.envolvedzuul.grayscale.listener.GrayScalePropertiesNacosListener,\
-com.github.berbatov001.envolvedzuul.netflix.zuul.listener.RequestFactoryNacosListener,\
-com.github.berbatov001.envolvedzuul.netflix.zuul.listener.ZuulPropertiesNacosListener,\
-com.github.berbatov001.envolvedzuul.sentinel.listener.SentinelPropertiesNacosListener
+com.github.berbatov001.enhancedzuul.grayscale.listener.GrayScalePropertiesNacosListener,\
+com.github.berbatov001.enhancedzuul.netflix.zuul.listener.RequestFactoryNacosListener,\
+com.github.berbatov001.enhancedzuul.netflix.zuul.listener.ZuulPropertiesNacosListener,\
+com.github.berbatov001.enhancedzuul.sentinel.listener.SentinelPropertiesNacosListener

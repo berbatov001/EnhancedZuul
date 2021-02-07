@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.berbatov001</groupId>
-    <artifactId>envolved-zuul</artifactId>
+    <artifactId>enhanced-zuul</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -80,10 +80,10 @@
             </exclusions>
         </dependency>
 
-        <!-- 引入envolved-ribbon用于网关访问下游应用-->
+        <!-- 引入enhanced-ribbon用于网关访问下游应用-->
         <dependency>
             <groupId>com.github.berbatov001</groupId>
-            <artifactId>envolved-ribbon</artifactId>
+            <artifactId>enhanced-ribbon</artifactId>
             <version>1.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
