@@ -3,6 +3,17 @@ package com.github.berbatov001.enhancedzuul.sentinel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * 限流的配置类
+ *
+ * sentinel.enable 是否开始限流，默认关闭。
+ * sentinel.behavior 别限流请求的处理方式 0-直接失败（默认） 1-预热  2-排队等待
+ * sentinel.maxQueueingTimeMs 排队等待的最大时间，单位毫秒。(只有在sentinel.behavior=2的时候有效)
+ * sentinel.warmUpPeriodSec 预热时间，单位秒。(只有在sentinel.behavior=1的时候有效)
+ * sentinel.uniqueEntranceQPSThreshold 网关总入口的QPS阈值，默认1000.
+ *
+ * @author berbatov001
+ */
 @ConfigurationProperties("sentinel")
 public class SentinelProperties {
 
