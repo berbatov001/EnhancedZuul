@@ -14,6 +14,8 @@ EnhancedZuul和EnhancedRibbon一起组成了比较完整的微服务框架，简
 ```  
 ### 1.2在application.properties文件中添加Nacos配置中心
 ```
+# 默认以工程名作为网关注册在Nacos上的服务名
+spring.appllication.name=(工程名)
 nacos.discovery.serverAddr=(具体的Nacos集群地址)
 ```
 ### 1.3在application.properties文件中配置本网关代理的后端微服务（配置方法和Spring Cloud Zuul一致）
