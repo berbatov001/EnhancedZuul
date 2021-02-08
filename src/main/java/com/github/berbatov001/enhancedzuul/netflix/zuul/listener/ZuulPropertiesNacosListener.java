@@ -29,7 +29,7 @@ public class ZuulPropertiesNacosListener implements ApplicationListener<NacosCon
         String zuulPropertiesBeanName = zuulPropertiesBeanNames[0];
         ZuulProperties zuulProperties = (ZuulProperties)beanFactory.getBean(zuulPropertiesBeanName);
 
-        //双新ZuulProperties实例的各个属性
+        //刷新ZuulProperties实例的各个属性
         ConfigurationPropertiesBindingPostProcessor configurationPropertiesBindingPostProcessor = beanFactory.getBean(ConfigurationPropertiesBindingPostProcessor.class);
         configurationPropertiesBindingPostProcessor.postProcessBeforeInitialization(zuulProperties, zuulPropertiesBeanName);
 
