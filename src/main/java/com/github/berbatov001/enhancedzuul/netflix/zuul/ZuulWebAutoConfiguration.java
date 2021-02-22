@@ -1,5 +1,6 @@
 package com.github.berbatov001.enhancedzuul.netflix.zuul;
 
+import com.github.berbatov001.enhancedzuul.netflix.zuul.filters.RequestHelper;
 import com.github.berbatov001.enhancedzuul.netflix.zuul.filters.post.WriteResponseFilter;
 import com.github.berbatov001.enhancedzuul.netflix.zuul.filters.pre.PreDecorationFilter;
 import com.github.berbatov001.enhancedzuul.netflix.zuul.filters.route.RibbonRoutingFilter;
@@ -48,18 +49,23 @@ public class ZuulWebAutoConfiguration {
     }
 
     @Bean
-    public RibbonRoutingFilter ribbonRoutingFilter() {
-        return new RibbonRoutingFilter(zuulProperties);
+    public RibbonRoutingFilter ribbonRoutingFilter(RequestHelper requestHelper) {
+        return new RibbonRoutingFilter(requestHelper, zuulProperties);
     }
 
     @Bean
-    public WriteResponseFilter writeResponseFilter() {
-        return new WriteResponseFilter(zuulProperties);
+    public WriteResponseFilter writeResponseFilter(RequestHelper requestHelper) {
+        return new WriteResponseFilter(requestHelper, zuulProperties);
     }
 
     @Bean
     public FilterRouteLocator filterRouterLocator() {
         return new FilterRouteLocator(zuulProperties);
+    }
+
+    @Bean
+    public RequestHelper requestHelper() {
+        return new RequestHelper(zuulProperties);
     }
 
     @Configuration

@@ -1,5 +1,6 @@
 package com.github.berbatov001.enhancedzuul.netflix.zuul.filters.post;
 
+import com.github.berbatov001.enhancedzuul.netflix.zuul.filters.RequestHelper;
 import com.github.berbatov001.enhancedzuul.netflix.zuul.support.FilterConstants;
 import com.github.berbatov001.enhancedzuul.netflix.zuul.support.ZuulProperties;
 import com.netflix.zuul.ZuulFilter;
@@ -20,13 +21,14 @@ public class WriteResponseFilter extends ZuulFilter {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(WriteResponseFilter.class);
 
-    private static final String IGNORED_HEADERS = "ignoredHeaders";
-
     private final ZuulProperties zuulProperties;
 
     private boolean userServlet31 = true;
 
-    public WriteResponseFilter(ZuulProperties zuulProperties) {
+    private RequestHelper requestHelper;
+
+    public WriteResponseFilter(RequestHelper requestHelper, ZuulProperties zuulProperties) {
+        this.requestHelper = requestHelper;
         this.zuulProperties = zuulProperties;
         try {
             HttpServletResponse.class.getMethod("setContentLengthLong", long.class);
@@ -76,7 +78,7 @@ public class WriteResponseFilter extends ZuulFilter {
                 if (headerName.equalsIgnoreCase(HttpHeaders.CONTENT_LENGTH)) {
                     contentLength = Long.valueOf(headerValue);
                 }
-                if (isIncludedHeader(headerName)) {
+                if (requestHelper.isIncludedHeader(headerName)) {
                     originalResponse.addHeader(headerName, headerValue);
                 }
             }
@@ -91,7 +93,7 @@ public class WriteResponseFilter extends ZuulFilter {
                     if (name.equalsIgnoreCase(HttpHeaders.CONTENT_LENGTH)) {
                         contentLength = Long.valueOf(value);
                     }
-                    if (isIncludedHeader(name)) {
+                    if (requestHelper.isIncludedHeader(name)) {
                         originalResponse.addHeader(name, value);
                     }
                 }
@@ -192,7 +194,7 @@ public class WriteResponseFilter extends ZuulFilter {
         }
     }
 
-    private boolean isIncludedHeader(String headerName) {
+    /*private boolean isIncludedHeader(String headerName) {
         String name = headerName.toLowerCase();
         RequestContext ctx = RequestContext.getCurrentContext();
         if (ctx.containsKey(IGNORED_HEADERS)) {
@@ -215,7 +217,7 @@ public class WriteResponseFilter extends ZuulFilter {
             default:
                 return true;
         }
-    }
+    }*/
 
     private static class RecordingInputStream extends InputStream {
 

@@ -4,6 +4,7 @@ import com.github.berbatov001.enhancedribbon.client.RemoteClient;
 import com.github.berbatov001.enhancedribbon.netfix.ribbon.RibbonClient;
 import com.github.berbatov001.enhancedribbon.netfix.ribbon.RibbonClientFactory;
 import com.github.berbatov001.enhancedzuul.netflix.ribbon.apache.ApacheHttpClientFactory;
+import com.github.berbatov001.enhancedzuul.netflix.zuul.filters.RequestHelper;
 import com.github.berbatov001.enhancedzuul.netflix.zuul.support.FilterConstants;
 import com.github.berbatov001.enhancedzuul.netflix.zuul.support.ZuulProperties;
 import com.netflix.client.config.CommonClientConfigKey;
@@ -44,7 +45,10 @@ public class RibbonRoutingFilter extends ZuulFilter {
 
     private ZuulProperties zuulProperties;
 
-    public RibbonRoutingFilter(ZuulProperties zuulProperties) {
+    private RequestHelper requestHelper;
+
+    public RibbonRoutingFilter(RequestHelper requestHelper, ZuulProperties zuulProperties) {
+        this.requestHelper = requestHelper;
         this.zuulProperties = zuulProperties;
     }
 
@@ -234,6 +238,15 @@ public class RibbonRoutingFilter extends ZuulFilter {
             List<String> headerList = Collections.list(headerEnumeration);
             map.put(headerName, headerList);
         }
+        //将ZuulRequestHeaders中的内容也添加到新Header中。
+        RequestContext context = RequestContext.getCurrentContext();
+        Map<String, String> zuulRequestHeaders = context.getZuulRequestHeaders();
+        zuulRequestHeaders.forEach((headerName, headerValue) -> {
+            if (requestHelper.isIncludedHeader(headerName)) {
+                List<String> headerValueList = Collections.singletonList(headerValue);
+                map.put(headerName, headerValueList);
+            }
+        });
         return new HttpHeaders(CollectionUtils.toMultiValueMap(map));
     }
 
