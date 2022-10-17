@@ -1,5 +1,6 @@
 package com.github.berbatov001.enhancedzuul.grayscale.strategy;
 
+import com.github.berbatov001.enhancedzuul.grayscale.support.GrayScaleChain;
 import com.github.berbatov001.enhancedzuul.grayscale.support.GrayScaleProperties;
 import com.github.berbatov001.enhancedzuul.netflix.zuul.support.FilterConstants;
 import org.slf4j.Logger;
@@ -27,8 +28,9 @@ public class IpGrayScaleStrategy implements IGrayScaleStrategy {
     }
 
     @Override
-    public Map<String, String> chooseGrayScaleChain(Object object) {
+    public GrayScaleChain chooseGrayScaleChain(Object object) {
         boolean isMatched = false;
+        GrayScaleChain chosenChain = new GrayScaleChain();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (servletRequestAttributes != null) {
             HttpServletRequest request = servletRequestAttributes.getRequest();
@@ -62,7 +64,9 @@ public class IpGrayScaleStrategy implements IGrayScaleStrategy {
                 }
             }
         }
-        return isMatched ? grayScaleProperties.getRoutersForValidation() : grayScaleProperties.getRoutersForOriginal();
+        chosenChain.setGrayChain(isMatched);
+        chosenChain.setChosenGrayScaleChain(isMatched ? grayScaleProperties.getRoutersForValidation() : grayScaleProperties.getRoutersForOriginal());
+        return chosenChain;
     }
 
     @Override

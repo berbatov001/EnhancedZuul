@@ -20,6 +20,8 @@ public class GrayScaleProperties {
 
     @NacosValue(value = "${gray.enable:false}", autoRefreshed = true)
     private boolean enable;
+    @NacosValue(value = "${gray.type:unknown}")
+    private String type = "";
     @NacosValue(value = "${gray.strategy:unknown}", autoRefreshed = true)
     private String strategy = "";
     @NacosValue(value = "${gray.grayScaleReleaseRoute:unknown}", autoRefreshed = true)
@@ -38,6 +40,14 @@ public class GrayScaleProperties {
 
     public boolean isEnable() {
         return enable;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStrategy() {
